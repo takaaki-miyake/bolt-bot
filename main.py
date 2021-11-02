@@ -1,20 +1,15 @@
 import logging
 import os
+import requests
 
 from slack_bolt import App
 
-from app.listeners import register_listeners
+logging.basicConfig(level=logging.DEBUG)
 
-# デフォルトではローカルファイルに state の情報やインストール情報を書きます
-# 必要に応じて別の実装に差し替えてください（Amazon S3, RDB に対応しています）
-app = App()
-register_listeners(app)
-
-from flask import Flask, request
-from slack_bolt.adapter.flask import SlackRequestHandler
-
-flask_app = Flask(__name__)
-handler = SlackRequestHandler(app)
+app = App(
+    token=os.environ.get("SLACK_BOT_TOKEN"),
+    signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
+)
 
 # Add functionality here
 # @app.event("app_home_opened") etc
@@ -29,6 +24,17 @@ def getmsg():
     }
     r = requests.get(url, headers=headers, params=params)
     print("return ", r.json())
+
+from flask import Flask, request
+from slack_bolt.adapter.flask import SlackRequestHandler
+
+flask_app = Flask(__name__)
+handler = SlackRequestHandler(app)
+
+
+@flask_app.route("/slack/events", methods=["POST"])
+def slack_events():
+    return handler.handle(request)
 
 # Start your app
 if __name__ == "__main__":
