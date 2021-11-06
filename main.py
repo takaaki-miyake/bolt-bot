@@ -20,7 +20,7 @@ client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
 logger = logging.getLogger(__name__)
 
 # Bot実行処理
-@app.message(":nho:")
+@app.message(":thread_backup:")
 def get_thread_bk(message, say):
     # channel_id取得
     CHANNEL = message['channel']
@@ -77,7 +77,7 @@ def get_thread_bk(message, say):
             # アップロード実施
             result = client.files_upload(
                 channels=CHANNEL, # channel_id
-                initial_comment="スレッド内のコメントのバックアップファイルを生成しました！\nダウンロードし、任意の場所で管理してください！ :smile:", # アップロード時出力メッセージ
+                initial_comment="スレッド内コメントのバックアップファイルを生成しました！\nダウンロードし、任意の場所で管理してください！ :smile:", # アップロード時出力メッセージ
                 file=files, # アップロードファイル
                 filename=filename, # アップロードファイル名
                 filetype="text", # アップロードファイルタイプ
