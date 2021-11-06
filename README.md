@@ -75,5 +75,3 @@ Windows環境の場合、wsl2でubuntu導入可能です。
 ### 問い合わせ先
 
 詳細については三宅まで問い合わせをお願いします
-
-takaaki.miyake@seattleconsulting.co.jp
