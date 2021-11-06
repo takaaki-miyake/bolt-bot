@@ -34,3 +34,32 @@
 
 スレッド外で上記スタンプを実行した場合、エラーメッセージがコメントされます。
 
+### ローカル環境での検証方法
+
+ローカル環境での検証はubuntuのみ確認済みです。
+Windows環境の場合、wsl2でubuntu導入可能です。
+
+1. ngrokをローカル環境に導入し、以下のコマンドを実行します。
+
+   ```
+   ./ngrok http 3000
+   ```
+
+2. main.pyが配置されているディレクトリまで遷移し、以下のコマンドで実行します。
+   (flaskが導入されていないと実行されないため、注意してください)
+
+   ```
+   python main.py
+   ```
+
+3. ngrokに表示されているhttpsのURLをコピーし、末尾に/slack/eventsを付与します。
+
+   ```
+   https://XXXXXX/slack/events
+   ```
+
+4. スレッドバックアップくんのSlackAPI設定画面にアクセスし、Event Subscriptionsまで遷移します。
+
+5. Enable EventsのRequest URLのChengeを押下し、項番3のURLを入力します。
+
+6. **Verified** が表示され、疎通が取れたことが確認でき次第、Slackにてスレッドバックアップくんを実行することが出来ます。
